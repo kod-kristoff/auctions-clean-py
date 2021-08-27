@@ -35,7 +35,7 @@ endif
 PYTHON = ${VENV_BIN}/python
 
 # order of libs is meaningful. First, we install libs without internal dependencies that other libs depend on.
-libs := auctions # foundation auctions shipping db_infrastructure web_app_models auctions_infrastructure shipping_infrastructure customer_relationship payments processes main web_app
+libs := foundation auctions  # shipping db_infrastructure web_app_models auctions_infrastructure shipping_infrastructure customer_relationship payments processes main web_app
 
 define install_dev
 	${INVENV} pip install -e $(1)
@@ -43,7 +43,7 @@ define install_dev
 endef
 
 .PHONY: dev
-dev:
+dev: venv
 	${INVENV} pip install  -r requirements.txt -r requirements-dev.txt
 	$(foreach lib,$(libs),$(call install_dev,$(lib)))
 
@@ -69,7 +69,7 @@ upgrade-pip: venv
 	${INVENV} pip install --upgrade pip
 
 test: run-all-tests
-run-all-tests: dev
+run-all-tests: 
 	${INVENV} pytest -vv
 
 run-all-tests-w-coverage: install-dev
