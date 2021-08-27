@@ -38,13 +38,13 @@ PYTHON = ${VENV_BIN}/python
 libs := foundation auctions  # shipping db_infrastructure web_app_models auctions_infrastructure shipping_infrastructure customer_relationship payments processes main web_app
 
 define install_dev
-	${INVENV} pip install -e $(1)
+	${INVENV} pip install -e auctions_platform/$(1)
 
 endef
 
 .PHONY: dev
 dev: venv
-	${INVENV} pip install  -r requirements.txt -r requirements-dev.txt
+	${INVENV} pip install  -r auctions_platform/requirements.txt -r auctions_platform/requirements-dev.txt
 	$(foreach lib,$(libs),$(call install_dev,$(lib)))
 
 
@@ -69,8 +69,8 @@ upgrade-pip: venv
 	${INVENV} pip install --upgrade pip
 
 test: run-all-tests
-run-all-tests: 
-	${INVENV} pytest -vv
+run-all-tests:
+	${INVENV} pytest -vv auctions_platform
 
 run-all-tests-w-coverage: install-dev
 	${INVENV} pytest -vv --cov=json_streams  --cov-report=term-missing tests
